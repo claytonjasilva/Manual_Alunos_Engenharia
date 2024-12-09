@@ -494,5 +494,19 @@
     <footer>
         &copy; 2024 Ibmec RJ - Todos os direitos reservados.
     </footer>
+<script src="https://identity.netlify.com/v1/netlify-identity-widget.js"></script>
+<script>
+    netlifyIdentity.init(); // Inicializa o Identity
+
+    // Configurar ações de login e logout
+    netlifyIdentity.on("login", user => {
+        console.log("Usuário logado:", user);
+        window.location.href = "/pagina-protegida/";
+    });
+    netlifyIdentity.on("logout", () => {
+        console.log("Usuário deslogado.");
+    });
+</script>
+
 </body>
 </html>
