@@ -1,5 +1,19 @@
 document.addEventListener("DOMContentLoaded", () => {
 
+    document.addEventListener("DOMContentLoaded", () => {
+    // Verifica se o usuário está logado
+    netlifyIdentity.on("init", (user) => {
+        if (!user) {
+            // Redireciona para login.html se não estiver logado
+            window.location.href = "login.html";
+        }
+    });
+
+    // Inicia o Netlify Identity
+    netlifyIdentity.init();
+});
+
+
     // Após login
     netlifyIdentity.on("login", (user) => {
         console.log("Usuário logado:", user);
