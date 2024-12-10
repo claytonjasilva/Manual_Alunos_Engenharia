@@ -80,7 +80,10 @@
 <body>
     <header>
         <h1>Informações para Alunos - Ibmec RJ</h1>
+        <button id="login-btn">Login</button>
+        <button id="logout-btn">Logout</button>
     </header>
+    <div id="protected-content" class="slide-content" style="display: none;">
     <div class="slide-content">
         <!-- Seção 1 -->
         <div class="slide-box">
@@ -491,13 +494,57 @@
             <a href="#indice">⬅ Retornar ao índice</a>
         </div>
     </div>
+    </div>
     <footer>
         &copy; 2024 Ibmec RJ - Todos os direitos reservados.
     </footer>
 
-    <!-- Scripts de autenticação -->
+  <!-- Scripts de autenticação -->
     <script src="https://identity.netlify.com/v1/netlify-identity-widget.js"></script>
-    <script src="auth.js"></script>
-        
+    <script>
+        document.addEventListener("DOMContentLoaded", () => {
+            // Inicializa o Netlify Identity
+            netlifyIdentity.init();
+
+            const loginBtn = document.getElementById("login-btn");
+            const logoutBtn = document.getElementById("logout-btn");
+            const protectedContent = document.getElementById("protected-content");
+
+            // Abrir modal de login
+            loginBtn.addEventListener("click", () => {
+                netlifyIdentity.open();
+            });
+
+            // Após login
+            netlifyIdentity.on("login", (user) => {
+                console.log("Usuário logado:", user);
+                loginBtn.style.display = "none";
+                logoutBtn.style.display = "inline-block";
+                protectedContent.style.display = "block"; // Exibe o conteúdo protegido
+            });
+
+            // Botão de logout
+            logoutBtn.addEventListener("click", () => {
+                netlifyIdentity.logout();
+            });
+
+            // Após logout
+            netlifyIdentity.on("logout", () => {
+                console.log("Usuário deslogado.");
+                loginBtn.style.display = "inline-block";
+                logoutBtn.style.display = "none";
+                protectedContent.style.display = "none"; // Esconde o conteúdo protegido
+            });
+
+            // Verifica estado de login na inicialização
+            const currentUser = netlifyIdentity.currentUser();
+            if (currentUser) {
+                console.log("Usuário já logado:", currentUser);
+                loginBtn.style.display = "none";
+                logoutBtn.style.display = "inline-block";
+                protectedContent.style.display = "block";
+            }
+        });
+    </script>
 </body>
 </html>
