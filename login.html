@@ -18,23 +18,21 @@
     </form>
     <script src="https://identity.netlify.com/v1/netlify-identity-widget.js"></script>
     <script>
-        document.getElementById("login-form").addEventListener("submit", async (e) => {
-            e.preventDefault();
-            const username = document.getElementById("username").value;
-            const password = document.getElementById("password").value;
+        document.getElementById("login-btn").addEventListener("click", () => {
+    const email = document.getElementById("email").value;
+    const password = document.getElementById("password").value;
 
-            try {
-                const user = await netlifyIdentity.authenticate({
-                    username,
-                    password,
-                });
-                alert("Login bem-sucedido!");
-                // Redirecione para a página principal
-                window.location.href = "/index.html";
-            } catch (error) {
-                alert("Erro no login: " + error.message);
-            }
-        });
+    netlifyIdentity.open(); // Abre o modal para login.
+    netlifyIdentity.on("login", (user) => {
+        console.log("Usuário logado:", user);
+        window.location.href = "index.html"; // Redireciona após login bem-sucedido.
+    });
+
+    netlifyIdentity.on("error", (err) => {
+        console.error("Erro no login:", err);
+        alert("Erro no login, tente novamente.");
+    });
+});
     </script>
 </body>
 </html>
