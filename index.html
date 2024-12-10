@@ -501,7 +501,7 @@
     // Configurar ações de login e logout
     netlifyIdentity.on("login", user => {
         console.log("Usuário logado:", user);
-        window.location.href = "/pagina-protegida/";
+        window.location.href = "/index.html"; // Substitua por sua página protegida
     });
     netlifyIdentity.on("logout", () => {
         console.log("Usuário deslogado.");
